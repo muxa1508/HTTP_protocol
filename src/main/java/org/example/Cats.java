@@ -19,18 +19,6 @@ public class Cats {
         this.upvotes = upvotes;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getType() {
-        return type;
-    }
-
     public int getUpvotes() {
         return upvotes;
     }

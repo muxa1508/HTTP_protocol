@@ -27,19 +27,16 @@ public class Main {
                         .build())
                 .build();) {
             HttpGet request = new HttpGet(REMOTE_SERVICE_URL);
-            CloseableHttpResponse response = httpClient.execute(request);
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
 
-//            Arrays.stream(response.getAllHeaders()).forEach(System.out::println);
-//
-//            String body = new String(response.getEntity().getContent().readAllBytes(), StandardCharsets.UTF_8);
-//            System.out.println(body);
-
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            List<Cats> cats = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<Cats>>() {});
-            for (int i = 0; i < cats.size(); i++) {
-                if (cats.get(i).getUpvotes() > 0) {
-                    System.out.println(cats.get(i).toString());
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                List<Cats> cats = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<Cats>>() {
+                });
+                for (int i = 0; i < cats.size(); i++) {
+                    if (cats.get(i).getUpvotes() > 0) {
+                        System.out.println(cats.get(i).toString());
+                    }
                 }
             }
         } catch (IOException e) {
